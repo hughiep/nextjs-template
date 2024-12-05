@@ -109,8 +109,8 @@ importers:
         specifier: ^0.6.9
         version: 0.6.9(prettier@3.4.1)
       tailwindcss:
-        specifier: 4.0.0-beta.3
-        version: 4.0.0-beta.3
+        specifier: 4.0.0-beta.5
+        version: 4.0.0-beta.5
       typescript:
         specifier: ^5
         version: 5.7.2
@@ -2966,9 +2966,6 @@ packages:
 
   tailwind-merge@2.5.5:
     resolution: {integrity: sha512-0LXunzzAZzo0tEPxV3I297ffKZPlKDrjj7NXphC8V5ak9yHC5zRmxnOe2m/Rd/7ivsOMJe3JZ2JVocoDdQTRBA==}
-
-  tailwindcss@4.0.0-beta.3:
-    resolution: {integrity: sha512-Cem7SF6OYcijYA1ZOGmuZHxk704iOxsRboFCXIpSJSR0XFft/NNz93Yoo0kHZIGNlqZmnQItI7JUSdR++Y9hZQ==}
 
   tailwindcss@4.0.0-beta.5:
     resolution: {integrity: sha512-59zeDyaVE5z1iQnhk5cGeBJvb6Z/Iym4qSFzPddiotWbnqWcIqj0kRgZH8OyR4VZU+solTRQaWRgfDZ8PQ+p8A==}
@@ -6603,8 +6600,6 @@ snapshots:
   system-architecture@0.1.0: {}
 
   tailwind-merge@2.5.5: {}
-
-  tailwindcss@4.0.0-beta.3: {}
 
   tailwindcss@4.0.0-beta.5: {}
 
