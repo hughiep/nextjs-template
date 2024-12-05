@@ -1,5 +1,8 @@
 // TODO: This config can not be used with eslint inspect, it will throw an error
 
+import { fileURLToPath } from 'node:url'
+import path from 'node:path'
+
 import eslint from '@eslint/js'
 import { fixupPluginRules } from '@eslint/compat'
 import { fixupConfigRules } from '@eslint/compat'
@@ -10,8 +13,6 @@ import { FlatCompat } from '@eslint/eslintrc'
  */
 import prettierPlugin from 'eslint-plugin-prettier/recommended'
 import importPlugin from 'eslint-plugin-import'
-import { fileURLToPath } from 'node:url'
-import path from 'node:path'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
