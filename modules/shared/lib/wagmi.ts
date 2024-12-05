@@ -1,5 +1,5 @@
 import { http, createConfig } from 'wagmi'
-import { bsc, bscTestnet } from 'wagmi/chains'
+import { bsc, bscTestnet, seiTestnet } from 'wagmi/chains'
 
 const SUPPORTED_CHAIN =
   process.env.NEXT_PULIB_APP_ENV === 'production' ? bsc : bscTestnet
@@ -10,6 +10,8 @@ const transports: Record<number, ReturnType<typeof http>> = {
 }
 
 export const config = createConfig({
-  chains: [SUPPORTED_CHAIN],
-  transports,
+  chains: [seiTestnet],
+  transports: {
+    [seiTestnet.id]: http(),
+  },
 })

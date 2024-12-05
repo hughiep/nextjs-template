@@ -1,8 +1,5 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import localFont from 'next/font/local'
-import { headers } from 'next/headers'
-import type { Metadata } from 'next'
 import { QueryProvider } from '@/modules/shared/contexts/query'
 import { Web3Provider } from '@/modules/shared/contexts/web3'
 
@@ -16,13 +13,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const rqHeaders = await headers()
-  const cookies = rqHeaders.get('cookie')
+  // const rqHeaders = await headers()
+  // const cookies = rqHeaders.get('cookie')
 
   return (
     <html lang="en">
       <body className={`antialiased`}>
-        <Web3Provider cookies={cookies}>
+        <Web3Provider cookies={null}>
           <QueryProvider>{children}</QueryProvider>
         </Web3Provider>
       </body>
