@@ -29,7 +29,6 @@ const modal = createAppKit({
     analytics: true, // Optional - defaults to your Cloud configuration
   },
 })
-
 export function Web3Provider({
   children,
   cookies,

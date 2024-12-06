@@ -1,4 +1,4 @@
-import { http, createConfig } from 'wagmi'
+import { http, createConfig, createStorage, cookieStorage } from 'wagmi'
 import { bsc, bscTestnet, seiTestnet } from 'wagmi/chains'
 
 const SUPPORTED_CHAIN =
@@ -11,6 +11,10 @@ const transports: Record<number, ReturnType<typeof http>> = {
 
 export const config = createConfig({
   chains: [seiTestnet],
+  ssr: true,
+  storage: createStorage({
+    storage: cookieStorage,
+  }),
   transports: {
     [seiTestnet.id]: http(),
   },

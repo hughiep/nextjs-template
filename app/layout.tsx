@@ -1,7 +1,8 @@
 import './globals.css'
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { QueryProvider } from '@/modules/shared/contexts/query'
-import { Web3Provider } from '@/modules/shared/contexts/web3'
+import Web3Persist from '@/modules/shared/contexts/persist-web3'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -13,15 +14,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  // const rqHeaders = await headers()
-  // const cookies = rqHeaders.get('cookie')
-
   return (
     <html lang="en">
       <body className={`antialiased`}>
-        <Web3Provider cookies={null}>
-          <QueryProvider>{children}</QueryProvider>
-        </Web3Provider>
+        <Suspense fallback="Loading...">
+          <Web3Persist>
+            <QueryProvider>{children}</QueryProvider>
+          </Web3Persist>
+        </Suspense>
       </body>
     </html>
   )
