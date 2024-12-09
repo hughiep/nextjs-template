@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import io, { type Socket } from 'socket.io-client'
-import { getAccessToken } from '../helpers/auth'
+import { getAccessToken } from '../../auth/helpers/auth'
 
 export class Wss {
   private static instance: Wss
