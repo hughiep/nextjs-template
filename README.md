@@ -1,17 +1,41 @@
-TODO
+# [Project] - Frontend
 
-- Editor setup
+## Pre-requisites
 
-* VsCode setup
-* Editor config
+- Node.js >= v22
+- pnpm >= v9
 
-- Formatter setup
-- Linters setup
+## Installation
 
-- Runtimes setup
+```bash
+pnpm install
+```
 
-Nodejs v20^
-pnpm v9^
+## Development
 
-- Package manager setup
-- Structure setup
+```bash
+pnpm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Build
+
+```bash
+pnpm run build
+```
+
+## Production
+
+Using Docker:
+
+```bash
+docker build -t frontend .
+docker run -p 3000:3000 frontend
+```
+
+or in a Node.js server:
+
+```bash
+pnpm run start
+```
