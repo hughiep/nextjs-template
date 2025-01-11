@@ -26,10 +26,10 @@ jobs:
           run_install: false
 
       # Has to be done after installing pnpm, otherwise the cache will not work.
-      - name: Set node version to 22
+      - name: Set node version to 20
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
           cache: "pnpm"
           cache-dependency-path: "pnpm-lock.yaml"
 
