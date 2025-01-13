@@ -7,7 +7,6 @@ import eslint from '@eslint/js'
 import { fixupPluginRules } from '@eslint/compat'
 import { fixupConfigRules } from '@eslint/compat'
 import { FlatCompat } from '@eslint/eslintrc'
-
 /**
  * Plugins
  */
@@ -33,7 +32,27 @@ const config = [
       import: fixupPluginRules(importPlugin),
     },
     rules: {
-      'import/order': 1,
+      'import/order': [
+        'warn',
+        {
+          pathGroups: [
+            {
+              pattern: '@/**',
+              group: 'external',
+              position: 'after',
+            },
+          ],
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+          ],
+          'newlines-between': 'always',
+        },
+      ],
       'import/newline-after-import': 1,
       'import/no-anonymous-default-export': 1,
     },

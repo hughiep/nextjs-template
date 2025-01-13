@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 
-import { cn } from '@/modules/shared/lib/tailwind-cn'
+import { cn } from '@/modules/shared/lib/classnames'
 
 const Dialog = DialogPrimitive.Root
 

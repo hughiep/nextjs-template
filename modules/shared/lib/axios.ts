@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios'
+
 import {
   getAccessToken,
   getRefreshToken,
   setAccessToken,
   setRefreshToken,
-} from '../helpers/auth'
+} from '../../auth/helpers/auth'
 
 const UNAUTHORIZED_STATUS_CODE = 401
 const REFRESH_TOKEN_API = '/refresh-token'
