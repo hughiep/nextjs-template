@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios'
 
-import {
-  getAccessToken,
-  getRefreshToken,
-  setAccessToken,
-  setRefreshToken,
-} from '../../auth/helpers/auth'
+import { logger } from '@/shared/logger'
+import { AppError, ErrorCode } from '@/modules/shared/utilities/error'
+import { getTokens, revokeAccessToken } from '@/auth/services'
+import { config } from '@/config'
 
 const UNAUTHORIZED_STATUS_CODE = 401
 const REFRESH_TOKEN_API = '/refresh-token'
@@ -41,26 +39,12 @@ const processQueue = () => {
 }
 
 export const axiosClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  baseURL: config.api.baseUrl,
   timeout: 30_000,
   headers: {
     'Content-Type': 'application/json',
   },
 })
-
-axiosClient.interceptors.request.use(
-  (config) => {
-    const accessToken = getAccessToken()
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`
-    }
-
-    return config
-  },
-  (error) => {
-    return Promise.reject(error)
-  },
-)
 
 axiosClient.interceptors.response.use(
   (response) => {
@@ -68,8 +52,27 @@ axiosClient.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config
-    const refreshToken = getRefreshToken()
 
+    // Handle network errors
+    if (!error.response) {
+      throw new AppError('Network error occurred', {
+        code: ErrorCode.NETWORK_ERROR,
+        context: { originalUrl: originalRequest?.url },
+      })
+    }
+
+    // Handle timeout
+    if (error.code === 'ECONNABORTED') {
+      throw new AppError('Request timeout', {
+        code: ErrorCode.REQUEST_TIMEOUT,
+        statusCode: 408,
+        context: { originalUrl: originalRequest?.url },
+      })
+    }
+
+    const { refreshToken } = await getTokens()
+
+    // Handle unauthorized
     if (
       refreshToken &&
       !originalRequest?._retry &&
@@ -80,40 +83,44 @@ axiosClient.interceptors.response.use(
         isRefreshing = true
 
         try {
-          const tokenData = await refreshAccessToken(refreshToken)
-          setAccessToken(tokenData.accessToken)
-          setRefreshToken(tokenData.refreshToken)
-
+          await revokeAccessToken()
           isRefreshing = false
           processQueue()
-          return await axiosClient(originalRequest)
-        } catch (error) {
+          return axiosClient(originalRequest)
+        } catch {
           isRefreshing = false
           processQueue()
-          return Promise.reject(error)
+          throw new AppError('Session expired', {
+            code: ErrorCode.SESSION_EXPIRED,
+            statusCode: 401,
+            context: { url: error.config.url },
+          })
         }
-      } else {
-        originalRequest._retry = true
-
-        return new Promise((resolve, reject) =>
-          lockedRequestsQueued.push({
-            request: originalRequest,
-            resolve,
-            reject,
-          }),
-        )
       }
+
+      return new Promise((resolve, reject) =>
+        lockedRequestsQueued.push({
+          request: originalRequest,
+          resolve,
+          reject,
+        }),
+      )
     }
 
-    return Promise.reject(error)
+    // Handle API errors
+    const apiError = new AppError(
+      error.response?.data?.message || 'API Error',
+      {
+        code: ErrorCode.API_ERROR,
+        statusCode: error.response?.status,
+        context: {
+          originalUrl: originalRequest?.url,
+          responseData: error.response?.data,
+        },
+      },
+    )
+
+    logger.error('API Error', apiError)
+    throw apiError
   },
 )
-
-async function refreshAccessToken(refreshToken: string) {
-  const tokenData = await axiosClient.post<
-    { refreshToken: string },
-    { accessToken: string; refreshToken: string }
-  >(REFRESH_TOKEN_API, { refreshToken })
-
-  return tokenData
-}
