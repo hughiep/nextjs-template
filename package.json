@@ -17,6 +17,9 @@
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.6",
+    "@radix-ui/react-label": "^2.1.2",
+    "@radix-ui/react-radio-group": "^1.2.3",
+    "@radix-ui/react-select": "^2.1.6",
     "@radix-ui/react-slot": "^1.1.2",
     "@tailwindcss/postcss": "^4.0.4",
     "axios": "^1.7.9",
@@ -29,6 +32,7 @@
     "react-dom": "19.0.0",
     "socket.io-client": "^4.8.1",
     "tailwind-merge": "^3.0.1",
+    "tailwindcss-animate": "^1.0.7",
     "wagmi": "^2.14.8"
   },
   "devDependencies": {
