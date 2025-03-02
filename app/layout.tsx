@@ -14,6 +14,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <li onClick={() => void 0} />
+      <div onClick={() => void 0} role="listitem" />
       <body className={`antialiased`}>{children}</body>
     </html>
   )

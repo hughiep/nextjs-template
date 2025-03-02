@@ -1,11 +1,12 @@
-// TODO: This config can not be used with eslint inspect, it will throw an error
+// TODO: This config can not be used with eslint inspector, it would throw an error
+// Wait for Nextjs for updates
+// https://eslint.org/docs/latest/use/configure/debug
 
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
 import eslint from '@eslint/js'
-import { fixupPluginRules } from '@eslint/compat'
-import { fixupConfigRules } from '@eslint/compat'
+import { fixupPluginRules, fixupConfigRules } from '@eslint/compat'
 import { FlatCompat } from '@eslint/eslintrc'
 /**
  * Plugins
@@ -35,6 +36,7 @@ const config = [
       'import/order': [
         'warn',
         {
+          // Internal modules alias
           pathGroups: [
             {
               pattern: '@/**',
