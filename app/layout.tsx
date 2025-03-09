@@ -10,14 +10,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  login,
 }: Readonly<{
   children: React.ReactNode
+  login: React.ReactNode
 }>) {
   return (
     <html lang="en">
-      <li onClick={() => void 0} />
-      <div onClick={() => void 0} role="listitem" />
-      <body className={`antialiased`}>{children}</body>
+      <body className={`antialiased`}>
+        {children}
+        Layout
+        {login}
+      </body>
     </html>
   )
 }

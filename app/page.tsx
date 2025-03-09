@@ -1,13 +1,10 @@
-import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Page() {
   return (
-    <Image
-      src="/vercel.svg"
-      className="rounded-full"
-      width={28}
-      height={28}
-      alt="Vercel"
-    />
+    <div>
+      <h1>Home</h1>
+      <Link href="/connect">To Connect</Link>
+    </div>
   )
 }
