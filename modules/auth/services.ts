@@ -3,32 +3,8 @@
 import { cookies } from 'next/headers'
 
 import { logger } from '@/shared/logger'
-import { config } from '@/config'
 
 import { storageKeys } from './storage'
-
-/**
- * REST api: Get auth tokens
- * @returns access token & refresh token
- */
-export const getAuthTokens = async (): Promise<{
-  accessToken?: string
-  refreshToken?: string
-}> => {
-  const res = await fetch(`${config.metadata.url}/api/auth/tokens`, {
-    method: 'GET',
-  })
-
-  if (res.ok) {
-    return res.json() as Promise<{ accessToken: string; refreshToken: string }>
-  }
-
-  return {}
-}
-
-export const authApi = {
-  getAuthTokens,
-}
 
 export const signIn = async (address: `0x${string}`, signature: string) => {
   try {
