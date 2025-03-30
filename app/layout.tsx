@@ -1,4 +1,5 @@
 import './globals.css'
+
 import '@/config'
 
 import type { Metadata } from 'next'
@@ -15,8 +16,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <li onClick={() => void 0} />
-      <div onClick={() => void 0} role="listitem" />
       <body className={`antialiased`}>{children}</body>
     </html>
   )

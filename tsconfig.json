@@ -20,7 +20,6 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@/config": ["./modules/config/index"],
       "@/shared/*": ["./modules/shared/*"],
       "@/auth/*": ["./modules/auth/*"]
     }
@@ -30,7 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "modules/config/env.d.ts"
+    "config/env.d.ts"
   ],
   "exclude": ["node_modules"]
 }

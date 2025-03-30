@@ -2,7 +2,9 @@
 
 ## Pre-requisites
 
-- Node.js >= v22
+- Node.js 18.x
+[https://github.com/axios/axios/issues/5929]
+
 - pnpm >= v9
 
 ## Installation
