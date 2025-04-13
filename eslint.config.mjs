@@ -23,7 +23,8 @@ const compat = new FlatCompat({
 
 /** @type {import("eslint").Linter.Config[]} */
 const config = [
-  { ignores: ['.next'] },
+  // Ignored .gitignore patterns by default
+  // { ignores: ['.next'] },
   ...fixupConfigRules(
     compat.extends('next/typescript', 'next/core-web-vitals'),
   ),
