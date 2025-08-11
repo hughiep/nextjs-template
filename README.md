@@ -2,10 +2,8 @@
 
 ## Pre-requisites
 
-- Node.js 18.x
-[https://github.com/axios/axios/issues/5929]
-
-- pnpm >= v9
+- [Node.js](https://nodejs.org/en/download/) >= 22
+- [pnpm](https://pnpm.io/) >= 10
 
 ## Installation
 
