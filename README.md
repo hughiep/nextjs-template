@@ -1,6 +1,6 @@
 # [Project] - Frontend
 
-## Pre-requisites
+## Prerequisites
 
 - [Node.js](https://nodejs.org/en/download/) >= 22
 - [pnpm](https://pnpm.io/) >= 10

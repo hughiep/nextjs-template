@@ -1,7 +1,10 @@
+# If name is not specified, the image name will be derived from the directory name. Which can lead to conflicts.
+name: my-app
+
 services:
   app:
     build: .
     container_name: app
     restart: always
     ports:
-    - "3000:3000"
+    - "3000:3000" # map port 3000 in container to 3000 in host machine

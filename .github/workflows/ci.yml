@@ -1,19 +1,17 @@
-name: Linting a PR
-run-name: Lint the PR of ${{ github.actor }}
+name: CI
+run-name: Validate PR from ${{ github.actor }}
 
 on:
   pull_request:
-    types:
-      - opened
-      - edited
-      - synchronize
-      - reopened
+    types: [opened, edited, synchronize, reopened]
 
+env:
+  NODE_VERSION: 22
 jobs:
-  lint:
-    name: Linting
-    runs-on: ubuntu-latest # Replace with self-hosted runner if needed
-    timeout-minutes: 10
+  quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repository
@@ -24,19 +22,43 @@ jobs:
         with:
           run_install: false
 
-      # Has to be done after installing pnpm, otherwise the cache will not work.
-      - name: Set node version to 20
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: "pnpm"
-          cache-dependency-path: "pnpm-lock.yaml"
+          node-version: ${{ env.NODE_VERSION }}
+
+        # Cache pnpm store
+        # Even we can cache node_modules, pnpm's store is more efficient for self hosted runners
+        # For github hosted runners, caching node_modules is still useful as caching will be stored in github cache server
+      - name: Get pnpm store directory
+        id: pnpm-cache-dir
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
+
+      - name: Restore pnpm store from cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: pnpm-store-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-store-${{ runner.os }}-
+
+      # Cache TypeScript build info and ESLint cache for faster subsequent runs
+      - name: Cache TypeScript and ESLint
+        uses: actions/cache@v4
+        with:
+          path: |
+            .eslintcache
+          key: ts-eslint-cache-${{ runner.os }}-${{ hashFiles('**/*.ts', '**/*.tsx', 'eslint.config.mjs') }}
+          restore-keys: |
+            ts-eslint-cache-${{ runner.os }}-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --prefer-offline
 
+      # Run type checking first as it's often the fastest way to catch issues
+      - name: Type checking
+        run: pnpm run typecheck
+
+      # Run linting with cache
       - name: Run lint
         run: pnpm run lint
-
-      - name: Run type checking
-        run: pnpm run typecheck
