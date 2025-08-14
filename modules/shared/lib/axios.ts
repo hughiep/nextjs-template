@@ -1,44 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios'
+import { config } from 'config'
 
 import { logger } from '@/shared/logger'
-import { AppError, ErrorCode } from '@/modules/shared/types/error'
-import { getTokens, revokeAccessToken } from '@/auth/services'
-import { config } from '@/config'
+import { AppError, ErrorCode } from '@/shared/types/error'
+import { getTokens } from '@/auth/services'
 
 const UNAUTHORIZED_STATUS_CODE = 401
 const REFRESH_TOKEN_API = '/refresh-token'
 
-/**
- * Indicate wheather or not accessToken is refreshing
- */
-let isRefreshing = false
-
-/**
- * When access token is refreshing by refresh token, queue 401 axios requests
- */
-let lockedRequestsQueued: {
-  request: any
-  resolve: (value: any) => void
-  reject: (reason?: any) => void
-}[] = []
-
-/**
- * After refreshing, resolve or reject requests in queue if there is error or not
- */
-const processQueue = () => {
-  lockedRequestsQueued.forEach((prom) => {
-    if (prom.request._retry) {
-      prom.reject(new Error('Token refresh failed'))
-    } else {
-      prom.resolve(axiosClient(prom.request))
-    }
-  })
-
-  lockedRequestsQueued = []
-}
-
 export const axiosClient = axios.create({
+  adapter: axios.defaults.adapter,
   baseURL: config.api.baseUrl,
   timeout: 30_000,
   headers: {
@@ -79,32 +50,30 @@ axiosClient.interceptors.response.use(
       originalRequest?.url !== REFRESH_TOKEN_API &&
       error.response?.status === UNAUTHORIZED_STATUS_CODE
     ) {
-      if (!isRefreshing) {
-        isRefreshing = true
-
-        try {
-          await revokeAccessToken()
-          isRefreshing = false
-          processQueue()
-          return axiosClient(originalRequest)
-        } catch {
-          isRefreshing = false
-          processQueue()
-          throw new AppError('Session expired', {
-            code: ErrorCode.SESSION_EXPIRED,
-            statusCode: 401,
-            context: { url: error.config.url },
-          })
-        }
-      }
-
-      return new Promise((resolve, reject) =>
-        lockedRequestsQueued.push({
-          request: originalRequest,
-          resolve,
-          reject,
-        }),
-      )
+      // if (!isRefreshing) {
+      //   isRefreshing = true
+      //   try {
+      //     await revokeAccessToken()
+      //     isRefreshing = false
+      //     processQueue()
+      //     return axiosClient(originalRequest)
+      //   } catch {
+      //     isRefreshing = false
+      //     processQueue()
+      //     throw new AppError('Session expired', {
+      //       code: ErrorCode.SESSION_EXPIRED,
+      //       statusCode: 401,
+      //       context: { url: error.config.url },
+      //     })
+      //   }
+      // }
+      // return new Promise((resolve, reject) =>
+      //   lockedRequestsQueued.push({
+      //     request: originalRequest,
+      //     resolve,
+      //     reject,
+      //   }),
+      // )
     }
 
     // Handle API errors
