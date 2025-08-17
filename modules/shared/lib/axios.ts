@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { config } from 'config'
 
 import { logger } from '@/shared/logger'
 import { AppError, ErrorCode } from '@/shared/types/error'
@@ -10,7 +9,6 @@ const REFRESH_TOKEN_API = '/refresh-token'
 
 export const axiosClient = axios.create({
   adapter: axios.defaults.adapter,
-  baseURL: config.api.baseUrl,
   timeout: 30_000,
   headers: {
     'Content-Type': 'application/json',

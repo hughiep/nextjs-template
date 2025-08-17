@@ -1,10 +1,25 @@
-import { cn } from 'lib/utils'
+'use client'
+
 import Image from 'next/image'
+import { redirect } from 'next/navigation'
 
 import { Button } from '@/shared/components/ui/button'
 import { Card, CardContent } from '@/shared/components/ui/card'
 import { Input } from '@/shared/components/ui/input'
 import { Label } from '@/shared/components/ui/label'
+
+import { cn } from 'lib/utils'
+
+import { httpClient } from '../services/http'
+
+const login = async (formData: FormData) => {
+  await httpClient.post('/api/auth/login', {
+    email: formData.get('email'),
+    password: formData.get('password'),
+  })
+
+  redirect('/')
+}
 
 export function LoginForm({
   className,
@@ -14,7 +29,14 @@ export function LoginForm({
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault()
+              const formData = new FormData(e.currentTarget)
+              await login(formData)
+            }}
+            className="p-6 md:p-8"
+          >
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
@@ -27,6 +49,7 @@ export function LoginForm({
                 <Input
                   id="email"
                   type="email"
+                  name="email"
                   placeholder="m@example.com"
                   required
                 />
@@ -41,7 +64,7 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" name="password" type="password" required />
               </div>
               <Button type="submit" className="w-full">
                 Login
