@@ -1,6 +1,6 @@
 import './globals.css'
 
-import 'config'
+import 'src/config'
 
 import type { Metadata } from 'next'
 

@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-import { logger } from '@/shared/logger'
-import { AppError, ErrorCode } from '@/shared/types/error'
-import { getTokens } from '@/auth/services'
+import { logger } from 'src/modules/shared/logger'
+import { AppError, ErrorCode } from 'src/modules/shared/types/error'
+import { getTokens } from 'src/modules/auth/services'
 
 const UNAUTHORIZED_STATUS_CODE = 401
 const REFRESH_TOKEN_API = '/refresh-token'

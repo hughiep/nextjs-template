@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers'
 
-import { logger } from '@/shared/logger'
+import { logger } from 'src/modules/shared/logger'
 
 import { storageKeys } from './storage'
 

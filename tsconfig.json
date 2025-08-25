@@ -20,8 +20,9 @@
       }
     ],
     "paths": {
-      "@/shared/*": ["./modules/shared/*"],
-      "@/auth/*": ["./modules/auth/*"]
+      "@/shared/*": ["src/modules/shared/*"],
+      "@/auth/*": ["src/modules/auth/*"],
+      "@/*": ["src/*"]
     }
   },
   "include": [
@@ -29,7 +30,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "config/env.d.ts"
+    "src/config/env.d.ts"
   ],
   "exclude": ["node_modules"]
 }

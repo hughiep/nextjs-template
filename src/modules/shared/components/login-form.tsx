@@ -3,12 +3,12 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
 
-import { Button } from '@/shared/components/ui/button'
-import { Card, CardContent } from '@/shared/components/ui/card'
-import { Input } from '@/shared/components/ui/input'
-import { Label } from '@/shared/components/ui/label'
+import { Button } from 'src/modules/shared/components/ui/button'
+import { Card, CardContent } from 'src/modules/shared/components/ui/card'
+import { Input } from 'src/modules/shared/components/ui/input'
+import { Label } from 'src/modules/shared/components/ui/label'
 
-import { cn } from 'lib/utils'
+import { cn } from 'src/lib/utils'
 
 import { httpClient } from '../services/http'
 
