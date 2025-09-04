@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function middleware(req: NextRequest) {
+  console.log('Middleware running for:', req.url)
   // if (req.nextUrl.pathname.startsWith('/api')) {
   //   // Skip middleware for API routes
   //   return NextResponse.json({ message: 'API route' })
