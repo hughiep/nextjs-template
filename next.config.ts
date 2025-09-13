@@ -6,12 +6,12 @@ const nextConfig: NextConfig = {
     reactCompiler: true,
   },
   typedRoutes: true,
-  rewrites: async () => [
-    {
-      source: `/api/:path*`,
-      destination: `${process.env.API_BASE_URL}/:path*`,
-    },
-  ],
+  // rewrites: async () => [
+  //   {
+  //     source: `/api/:path*`,
+  //     destination: `${process.env.API_BASE_URL}/:path*`,
+  //   },
+  // ],
 }
 
 export default nextConfig

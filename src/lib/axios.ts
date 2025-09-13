@@ -1,14 +1,15 @@
 import axios from 'axios'
 
-import { AppError, ErrorCode } from '@/shared/services/error'
-import { getTokens } from '@/auth/services'
+import { ApiError, ErrorCode } from '@/shared/services/error'
 import { logger } from '@/shared/logger'
 
 const UNAUTHORIZED_STATUS_CODE = 401
 const REFRESH_TOKEN_API = '/refresh-token'
 
 export const axiosClient = axios.create({
-  adapter: axios.defaults.adapter,
+  baseURL: process.env.API_BASE_URL,
+  // Fetch adapter for better compatibility with Next.js (which extends native Fetch API)
+  adapter: 'fetch',
   timeout: 30_000,
   headers: {
     'Content-Type': 'application/json',
@@ -24,7 +25,7 @@ axiosClient.interceptors.response.use(
 
     // Handle network errors
     if (!error.response) {
-      throw new AppError('Network error occurred', {
+      throw new ApiError('Network error occurred', {
         code: ErrorCode.NETWORK_ERROR,
         context: { originalUrl: originalRequest?.url },
       })
@@ -32,18 +33,15 @@ axiosClient.interceptors.response.use(
 
     // Handle timeout
     if (error.code === 'ECONNABORTED') {
-      throw new AppError('Request timeout', {
+      throw new ApiError('Request timeout', {
         code: ErrorCode.REQUEST_TIMEOUT,
         statusCode: 408,
         context: { originalUrl: originalRequest?.url },
       })
     }
 
-    const { refreshToken } = await getTokens()
-
     // Handle unauthorized
     if (
-      refreshToken &&
       !originalRequest?._retry &&
       originalRequest?.url !== REFRESH_TOKEN_API &&
       error.response?.status === UNAUTHORIZED_STATUS_CODE
@@ -75,7 +73,7 @@ axiosClient.interceptors.response.use(
     }
 
     // Handle API errors
-    const apiError = new AppError(
+    const apiError = new ApiError(
       error.response?.data?.message || 'API Error',
       {
         code: ErrorCode.API_ERROR,

@@ -6,7 +6,7 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.inlayHints.parameterNames.enabled": "all",
   // Prefer relative imports
-  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
 
   // Use prettier to format typescript, javascript and JSON files
   "[typescript]": {

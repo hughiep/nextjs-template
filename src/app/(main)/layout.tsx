@@ -1,13 +1,9 @@
-import Link from 'next/link'
+import Navbar from '../../modules/shared/layouts/navbar'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      Main Layout{' '}
-      <nav className="flex gap-2">
-        <Link href="/">Home</Link>
-        <Link href="/profile">Profile</Link>
-      </nav>{' '}
+      <Navbar />
       <div>{children}</div>
     </div>
   )
