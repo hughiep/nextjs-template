@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -19,9 +20,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"],
-      "@/shared/*": ["./modules/shared/*"],
-      "@/auth/*": ["./modules/auth/*"]
+      "@/shared/*": ["src/modules/shared/*"],
+      "@/auth/*": ["src/modules/auth/*"]
     }
   },
   "include": [
@@ -29,7 +29,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "config/env.d.ts"
+    "src/config/env.d.ts"
   ],
   "exclude": ["node_modules"]
 }
