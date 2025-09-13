@@ -2,7 +2,7 @@
  * JWT token key
  */
 
-const ACCESS_TOKEN = 'x-access-token'
+const ACCESS_TOKEN = 'id-token'
 const REFRESH_TOKEN = 'x-refresh-token'
 
 const auth = {
